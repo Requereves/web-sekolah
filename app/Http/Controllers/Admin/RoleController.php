@@ -1,44 +1,23 @@
 <?php
 
-
-
 namespace App\Http\Controllers\Admin;
 
-
-
 use App\Http\Controllers\Controller;
-
 use Illuminate\Http\Request;
-
 use Spatie\Permission\Models\Permission;
-
 use Spatie\Permission\Models\Role;
 
-
-
 class RoleController extends Controller
-
 {
-
     /**
-
      * __construct
-
      *
-
      * @return void
-
      */
-
     public function __construct()
-
     {
-
         $this->middleware(['permission:roles.index|roles.create|roles.edit|roles.delete']);
-
     }
-
-
 
     /**
 
@@ -247,11 +226,8 @@ class RoleController extends Controller
     {
 
         $role = Role::findOrFail($id);
-
         $permissions = $role->permissions;
-
         $role->revokePermissionTo($permissions);
-
         $role->delete();
 
 
