@@ -40,7 +40,7 @@
 
                                 <input type="text" class="form-control" name="q"
 
-                                       placeholder="cari berdasarkan nama permissions">
+                                    placeholder="cari berdasarkan nama permissions">
 
                                 <div class="input-group-append">
 
