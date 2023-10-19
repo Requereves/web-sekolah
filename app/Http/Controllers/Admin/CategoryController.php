@@ -1,180 +1,263 @@
-
-return view('admin.category.create');
-
-}
+<?php
 
 
 
-/**
+namespace App\Http\Controllers\Admin;
 
- * Store a newly created resource in storage.
 
- *
 
- * @param  \Illuminate\Http\Request  $request
+use App\Models\Category;
 
- * @return \Illuminate\Http\Response
+use Illuminate\Support\Str;
 
- */
+use Illuminate\Http\Request;
 
-public function store(Request $request)
+use App\Http\Controllers\Controller;
+
+
+
+class CategoryController extends Controller
 
 {
 
-    $this->validate($request, [
+    /**
 
-        'name' => 'required|unique:categories'
+     * __construct
 
-    ]);
+     *
 
+     * @return void
 
+     */
 
-    $category = Category::create([
+    public function __construct()
 
-        'name' => $request->input('name'),
+    {
 
-        'slug' => Str::slug($request->input('name'), '-') 
-
-    ]);
-
-
-
-    if($category){
-
-        //redirect dengan pesan sukses
-
-        return redirect()->route('admin.category.index')->with(['success' => 'Data Berhasil Disimpan!']);
-
-    }else{
-
-        //redirect dengan pesan error
-
-        return redirect()->route('admin.category.index')->with(['error' => 'Data Gagal Disimpan!']);
+        $this->middleware(['permission:categories.index|categories.create|categories.edit|sliders.delete']);
 
     }
 
-}
+
+
+    /**
+
+     * Display a listing of the resource.
+
+     *
+
+     * @return \Illuminate\Http\Response
+
+     */
+
+    public function index()
+
+    {
+
+        $categories = Category::latest()->when(request()->q, function($categories) {
+
+            $categories = $categories->where('name', 'like', '%'. request()->q . '%');
+
+        })->paginate(10);
 
 
 
-/**
-
- * Show the form for editing the specified resource.
-
- *
-
- * @param  int  $id
-
- * @return \Illuminate\Http\Response
-
- */
-
-public function edit(Category $category)
-
-{
-
-    return view('admin.category.edit', compact('category'));
-
-}
-
-
-
-/**
-
- * Update the specified resource in storage.
-
- *
-
- * @param  \Illuminate\Http\Request  $request
-
- * @param  int  $id
-
- * @return \Illuminate\Http\Response
-
- */
-
-public function update(Request $request, Category $category)
-
-{
-
-    $this->validate($request, [
-
-        'name' => 'required|unique:categories,name,'.$category->id
-
-    ]);
-
-
-
-    $category = Category::findOrFail($category->id);
-
-    $category->update([
-
-        'name' => $request->input('name'),
-
-        'slug' => Str::slug($request->input('name'), '-') 
-
-    ]);
-
-
-
-    if($category){
-
-        //redirect dengan pesan sukses
-
-        return redirect()->route('admin.category.index')->with(['success' => 'Data Berhasil Diupdate!']);
-
-    }else{
-
-        //redirect dengan pesan error
-
-        return redirect()->route('admin.category.index')->with(['error' => 'Data Gagal Diupdate!']);
+        return view('admin.category.index', compact('categories'));
 
     }
 
-}
+
+
+    /**
+
+     * Show the form for creating a new resource.
+
+     *
+
+     * @return \Illuminate\Http\Response
+
+     */
+
+    public function create()
+
+    {
+
+        return view('admin.category.create');
+
+    }
 
 
 
-/**
+    /**
 
- * Remove the specified resource from storage.
+     * Store a newly created resource in storage.
 
- *
+     *
 
- * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
 
- * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response
 
- */
+     */
 
-public function destroy($id)
+    public function store(Request $request)
 
-{
+    {
 
-    $category = Category::findOrFail($id);
+        $this->validate($request, [
 
-    $category->delete();
-
-
-
-    if($category){
-
-        return response()->json([
-
-            'status' => 'success'
+            'name' => 'required|unique:categories'
 
         ]);
 
-    }else{
 
-        return response()->json([
 
-            'status' => 'error'
+        $category = Category::create([
+
+            'name' => $request->input('name'),
+
+            'slug' => Str::slug($request->input('name'), '-') 
 
         ]);
 
+
+
+        if($category){
+
+            //redirect dengan pesan sukses
+
+            return redirect()->route('admin.category.index')->with(['success' => 'Data Berhasil Disimpan!']);
+
+        }else{
+
+            //redirect dengan pesan error
+
+            return redirect()->route('admin.category.index')->with(['error' => 'Data Gagal Disimpan!']);
+
+        }
+
     }
 
-}
+
+
+    /**
+
+     * Show the form for editing the specified resource.
+
+     *
+
+     * @param  int  $id
+
+     * @return \Illuminate\Http\Response
+
+     */
+
+    public function edit(Category $category)
+
+    {
+
+        return view('admin.category.edit', compact('category'));
+
+    }
+
+
+
+    /**
+
+     * Update the specified resource in storage.
+
+     *
+
+     * @param  \Illuminate\Http\Request  $request
+
+     * @param  int  $id
+
+     * @return \Illuminate\Http\Response
+
+     */
+
+    public function update(Request $request, Category $category)
+
+    {
+
+        $this->validate($request, [
+
+            'name' => 'required|unique:categories,name,'.$category->id
+
+        ]);
+
+
+
+        $category = Category::findOrFail($category->id);
+
+        $category->update([
+
+            'name' => $request->input('name'),
+
+            'slug' => Str::slug($request->input('name'), '-') 
+
+        ]);
+
+
+
+        if($category){
+
+            //redirect dengan pesan sukses
+
+            return redirect()->route('admin.category.index')->with(['success' => 'Data Berhasil Diupdate!']);
+
+        }else{
+
+            //redirect dengan pesan error
+
+            return redirect()->route('admin.category.index')->with(['error' => 'Data Gagal Diupdate!']);
+
+        }
+
+    }
+
+
+
+    /**
+
+     * Remove the specified resource from storage.
+
+     *
+
+     * @param  int  $id
+
+     * @return \Illuminate\Http\Response
+
+     */
+
+    public function destroy($id)
+
+    {
+
+        $category = Category::findOrFail($id);
+
+        $category->delete();
+
+
+
+        if($category){
+
+            return response()->json([
+
+                'status' => 'success'
+
+            ]);
+
+        }else{
+
+            return response()->json([
+
+                'status' => 'error'
+
+            ]);
+
+        }
+
+    }
 
 }

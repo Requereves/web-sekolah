@@ -337,29 +337,19 @@ class PostController extends Controller
     {
 
         $post = Post::findOrFail($id);
-
-        $image = Storage::disk('local')->delete('public/posts/'.basename($post->image)
-
+        $image = Storage::disk('local')->delete('public/posts/'.basename($post->image));
         $post->delete();
 
 
 
         if($post){
-
             return response()->json([
-
                 'status' => 'success'
-
             ]);
-
         }else{
-
             return response()->json([
-
                 'status' => 'error'
-
             ]);
-
         }
 
     }
