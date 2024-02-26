@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": "../../.."
+		},
+		{
+			"name": "Intent Manager",
+			"uri": "im:/"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"*.schemaForm": "json",
+			"*.viewConfig": "json",
+			"*.settings": "json",
+			"/intents/*": "json"
+		}
+	}
+}

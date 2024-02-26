@@ -120,7 +120,7 @@
 
                     <div class="sidebar-brand">
 
-                        <a href="index.html">SMK INDONESIA</a>
+                        <a href="index.html">SMK Nabil Pintar</a>
 
                     </div>
 
@@ -233,13 +233,12 @@
                             <li class="{{ setActive('admin/permission') }}"><a class="nav-link" href="{{ route('admin.permission.index') }}"><i class="fas fa-key"></i>Permissions</a></li>
                             @endcan
 
-                                @can('users.index')
-                                    <li class="{{ setActive('admin/user') }}"><a class="nav-link"
-                                        href="#"><i class="fas fa-users"></i> Users</a>
-                                </li>
+                            @can('users.index')
+                            <li class="{{ setActive('admin/user') }}"><a class="nav-link"
+                                href="{{ route('admin.user.index') }}"><i class="fas fa-users"></i> Users</a>
+                            </li>
+                            @endcan
 
-
-                                @endcan
                             </ul>
                         </li>
                     </ul>
@@ -258,7 +257,7 @@
 
                 <div class="footer-left">
 
-                    Copyright &copy; 2018 <div class="bullet"></div> SMK INDONESIA <div class="bullet"></div> All Rights
+                    Copyright &copy; 2018 <div class="bullet"></div> SMK Nabil Pintar <div class="bullet"></div> All Rights
 
                     Reserved.
 
